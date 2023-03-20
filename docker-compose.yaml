@@ -1,0 +1,10 @@
+services:
+  backend:
+    image: inspiron1/blade
+    ports:
+      - 8080:8080
+    build:
+      context: https://github.com/Cl0ne-a/blade.git
+    deploy:
+      mode: replicated
+      replicas: 2
