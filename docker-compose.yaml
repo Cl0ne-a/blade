@@ -1,10 +1,46 @@
 services:
   backend:
+    container_name: blade_service
     image: inspiron1/blade
     ports:
-      - 8080:8080
+      - 8080:8088
     build:
       context: https://github.com/Cl0ne-a/blade.git
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
+
+  postgres:
+    container_name: blade_pg
+    image: postgres
+    restart: always
+    hostname: 172.18.0.3
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blade_db
+      TZ: UTC
+      PGTZ: UTC
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - "./postgres:/var/lib/postgresql"
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ann.shchur666@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    restart: on-failure
+    volumes:
+      - "./pgadmin:/var/lib/pgadmin"
+
+volumes:
+  postgres:
+  pgadmin:
