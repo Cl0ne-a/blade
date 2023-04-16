@@ -9,5 +9,4 @@ public class BladeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BladeApplication.class, args);
 	}
-
 }

@@ -1,10 +1,33 @@
 services:
   backend:
+    container_name: blade_service
     image: inspiron1/blade
     ports:
-      - 8080:8080
+      - 8080:8088
     build:
       context: https://github.com/Cl0ne-a/blade.git
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
+
+  postgres:
+    container_name: blade_pg
+    image: postgres
+    restart: always
+    hostname: 172.18.0.3
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blade_db
+      TZ: 'Europe/Kyiv'
+      PGTZ: 'Europe/Kyiv'
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - "./blade_db:/var/lib/postgres"
+
+
+volumes:
+  blade-db:
